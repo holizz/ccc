@@ -22,28 +22,13 @@ class ArgsTest(unittest.TestCase):
         self.assertRaises(ArgsException, lambda: Args("", ["-x"]))
 
     def testWithNoSchemaButWithMultipleArguments(self):
-        try:
-            Args("", ["-x", "-y"])
-            self.fail()
-        except ArgsException, e:
-            self.assertEquals(ErrorCode.UNEXPECTED_ARGUMENT, e.getErrorCode())
-            self.assertEquals('x', e.getErrorArgumentId())
+        self.assertRaises(ArgsException, lambda: Args("", ["-x", "-y"]))
 
     def testNonLetterSchema(self):
-        try:
-            Args("*", [])
-            self.fail("Args constructor should have thrown exception")
-        except ArgsException, e:
-            self.assertEquals(ErrorCode.INVALID_ARGUMENT_NAME, e.getErrorCode())
-            self.assertEquals('*', e.getErrorArgumentId())
+        self.assertRaises(ArgsException, lambda: Args("*", []))
 
     def testInvalidArgumentFormat(self):
-        try:
-            Args("f~", [])
-            self.fail("Args constructor should have throws exception")
-        except ArgsException, e:
-            self.assertEquals(ErrorCode.INVALID_ARGUMENT_FORMAT, e.getErrorCode())
-            self.assertEquals('f', e.getErrorArgumentId())
+        self.assertRaises(ArgsException, lambda: Args("f~", []))
 
 
     def testSimpleBooleanPresent(self):
@@ -59,12 +44,7 @@ class ArgsTest(unittest.TestCase):
         self.assertEquals(2, args.nextArgument())
 
     def testMissingStringArgument(self):
-        try:
-            Args("x*", ["-x"])
-            self.fail()
-        except ArgsException, e:
-            self.assertEquals(ErrorCode.MISSING_STRING, e.getErrorCode())
-            self.assertEquals('x', e.getErrorArgumentId())
+        self.assertRaises(ArgsException, lambda: Args("x*", ["-x"]))
 
 
     def testSpacesInFormat(self):
@@ -80,22 +60,11 @@ class ArgsTest(unittest.TestCase):
         self.assertEquals(2, args.nextArgument())
 
     def testInvalidInteger(self):
-        try:
-            Args("x#", ["-x", "Forty two"])
-            self.fail()
-        except ArgsException, e:
-            self.assertEquals(ErrorCode.INVALID_INTEGER, e.getErrorCode())
-            self.assertEquals('x', e.getErrorArgumentId())
-            self.assertEquals("Forty two", e.getErrorParameter())
+        self.assertRaises(ArgsException, lambda: Args("x#", ["-x", "Forty two"]))
 
 
     def testMissingInteger(self):
-        try:
-            Args("x#", ["-x"])
-            self.fail()
-        except ArgsException, e:
-            self.assertEquals(ErrorCode.MISSING_INTEGER, e.getErrorCode())
-            self.assertEquals('x', e.getErrorArgumentId())
+        self.assertRaises(ArgsException, lambda: Args("x#", ["-x"]))
 
     def testSimpleDoublePresent(self):
         args = Args("x##", ["-x", "42.3"])
@@ -103,21 +72,10 @@ class ArgsTest(unittest.TestCase):
         self.assertEquals(42.3, args.getDouble('x'), .001)
 
     def testInvalidDouble(self):
-        try:
-            Args("x##", ["-x", "Forty two"])
-            self.fail()
-        except ArgsException, e:
-            self.assertEquals(ErrorCode.INVALID_DOUBLE, e.getErrorCode())
-            self.assertEquals('x', e.getErrorArgumentId())
-            self.assertEquals("Forty two", e.getErrorParameter())
+        self.assertRaises(ArgsException, lambda: Args("x##", ["-x", "Forty two"]))
 
     def testMissingDouble(self):
-        try:
-            Args("x##", ["-x"])
-            self.fail()
-        except ArgsException, e:
-            self.assertEquals(ErrorCode.MISSING_DOUBLE, e.getErrorCode())
-            self.assertEquals('x', e.getErrorArgumentId())
+        self.assertRaises(ArgsException, lambda: Args("x##", ["-x"]))
 
     def testStringArray(self):
         args = Args("x[*]", ["-x", "alpha"])
@@ -127,12 +85,7 @@ class ArgsTest(unittest.TestCase):
         self.assertEquals("alpha", result[0])
 
     def testMissingStringArrayElement(self):
-        try:
-            Args("x[*]", ["-x"])
-            self.fail()
-        except ArgsException, e:
-            self.assertEquals(ErrorCode.MISSING_STRING,e.getErrorCode())
-            self.assertEquals('x', e.getErrorArgumentId())
+        self.assertRaises(ArgsException, lambda: Args("x[*]", ["-x"]))
 
     def testExtraArguments(self):
         args = Args("x,y*", ["-x", "-y", "alpha", "beta"])
