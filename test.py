@@ -101,40 +101,6 @@ class ArgsTest(unittest.TestCase):
         self.assertFalse(args.getBoolean('y'))
         self.assertEquals(1, args.nextArgument())
 
-class ArgsExceptionTest(unittest.TestCase):
-  def testUnexpectedMessage(self):
-    e = ArgsException(ErrorCode.UNEXPECTED_ARGUMENT, 'x', None);
-    self.assertEquals("Argument -x unexpected.", e.errorMessage());
-
-  def testMissingStringMessage(self):
-    e = ArgsException(ErrorCode.MISSING_STRING, 'x', None);
-    self.assertEquals("Could not find string parameter for -x.", e.errorMessage());
-
-  def testInvalidIntegerMessage(self):
-    e = ArgsException(ErrorCode.INVALID_INTEGER, 'x', "Forty two");
-    self.assertEquals("Argument -x expects an integer but was 'Forty two'.", e.errorMessage());
-
-  def testMissingIntegerMessage(self):
-    e = ArgsException(ErrorCode.MISSING_INTEGER, 'x', None);
-    self.assertEquals("Could not find integer parameter for -x.", e.errorMessage());
-
-  def testInvalidDoubleMessage(self):
-    e = ArgsException(ErrorCode.INVALID_DOUBLE, 'x', "Forty two");
-    self.assertEquals("Argument -x expects a double but was 'Forty two'.", e.errorMessage());
-
-  def testMissingDoubleMessage(self):
-    e = ArgsException(ErrorCode.MISSING_DOUBLE, 'x', None);
-    self.assertEquals("Could not find double parameter for -x.", e.errorMessage());
-
-  def testInvalidArgumentName(self):
-    e = ArgsException(ErrorCode.INVALID_ARGUMENT_NAME, '#', None);
-    self.assertEquals("'#' is not a valid argument name.", e.errorMessage());
-
-  def testInvalidFormat(self):
-    e = ArgsException(ErrorCode.INVALID_ARGUMENT_FORMAT, 'x', "$");
-    self.assertEquals("'$' is not a valid argument format.", e.errorMessage());
-
-
 
 
 if __name__ == "__main__":
