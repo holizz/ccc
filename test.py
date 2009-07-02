@@ -10,6 +10,7 @@ Translated into Python by Emily Bache
 import unittest
 
 from args import *
+from exception import *
 
 
 class ArgsTest(unittest.TestCase):
@@ -18,12 +19,7 @@ class ArgsTest(unittest.TestCase):
         self.assertEquals(0, args.nextArgument())
 
     def testWithNoSchemaButWithOneArgument(self):
-        try:
-            Args("", ["-x"])
-            self.fail()
-        except ArgsException, e:
-            self.assertEquals(ErrorCode.UNEXPECTED_ARGUMENT, e.getErrorCode())
-            self.assertEquals('x', e.getErrorArgumentId())
+        self.assertRaises(ArgsException, lambda: Args("", ["-x"]))
 
     def testWithNoSchemaButWithMultipleArguments(self):
         try:
